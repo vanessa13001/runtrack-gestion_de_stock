@@ -16,17 +16,17 @@ style = ttk.Style()
 
 placeholderArray = ['', '', '', '', '']
 
+# fonction de connexion à la base de données (si nécessaire)
 # def connection():
-#     conn=pymysql.connection(
+#     conn = pymysql.connect(
 #         host='localhost',
 #         user='root',
-#         password='Parfait1313'
+#         password='Parfait1313',
 #         db='footlocker'
 #     )
 #     return conn
-# conn=connection()
-# cursor=conn.cursor()
-
+# conn = connection()
+# cursor = conn.cursor()
 
 for i in range(0, 5):
     placeholderArray[i] = tkinter.StringVar()
@@ -45,6 +45,28 @@ def refreshTable():
     my_tree.tag_configure('orow', background="#EEEEEE")
     my_tree.pack()
 
+def generate_id():
+    """Fonction pour générer un identifiant unique et remplir le champ Item ID."""
+    new_id = random.randint(1000, 9999)  # Générer un ID aléatoire entre 1000 et 9999
+    placeholderArray[0].set(str(new_id))  # Placer cet ID dans le champ 'Item ID'
+
+def save_data():
+    """Fonction pour sauvegarder les données dans le tableau."""
+    item_id = placeholderArray[0].get()
+    name = placeholderArray[1].get()
+    price = placeholderArray[2].get()
+    quantity = placeholderArray[3].get()
+    category = placeholderArray[4].get()
+
+    # Validation des champs (par exemple, vérifier si tous les champs sont remplis)
+    if item_id and name and price and quantity and category:
+        # Ajouter les nouvelles données dans le tableau
+        new_row = [item_id, name, price, quantity, category, str(datetime.now())]
+        dummydata.append(new_row)
+        refreshTable()  # Rafraîchir la table pour afficher les nouvelles données
+    else:
+        messagebox.showerror("Error", "All fields must be filled!")
+
 frame = tkinter.Frame(window, bg='#02577A')
 frame.pack()
 
@@ -53,7 +75,7 @@ btnColor = '#196E78'
 manageFrame = tkinter.LabelFrame(frame, text="Manage", borderwidth=5)
 manageFrame.grid(row=0, column=0, sticky="w", padx=[10, 200], pady=20, ipadx=[6])
 
-saveBtn = Button(manageFrame, text="SAVE", width=10, borderwidth=3, bg=btnColor, fg='white')
+saveBtn = Button(manageFrame, text="SAVE", width=10, borderwidth=3, bg=btnColor, fg='white', command=save_data)
 updateBtn = Button(manageFrame, text="UPDATE", width=10, borderwidth=3, bg=btnColor, fg='white')
 deleteBtn = Button(manageFrame, text="DELETE", width=10, borderwidth=3, bg=btnColor, fg='white')
 selectBtn = Button(manageFrame, text="SELECT", width=10, borderwidth=3, bg=btnColor, fg='white')
@@ -98,7 +120,7 @@ priceEntry.grid(row=2, column=2, padx=5, pady=5)
 qntEntry.grid(row=3, column=2, padx=5, pady=5)
 categoryCombo.grid(row=4, column=2, padx=5, pady=5)
 
-generateIdBtn = Button(entriesFrame, text="GENERATE ID", borderwidth=3, bg=btnColor, fg='white')
+generateIdBtn = Button(entriesFrame, text="GENERATE ID", borderwidth=3, bg=btnColor, fg='white', command=generate_id)
 generateIdBtn.grid(row=0, column=3, padx=5, pady=5)
 
 style.configure(window)
@@ -118,6 +140,10 @@ my_tree.heading("Category", text="Category", anchor=W)
 my_tree.heading("Date", text="Date", anchor=W)
 my_tree.tag_configure('orow', background="#EEEEEE")
 my_tree.pack()
+
+# Cette partie garantit que les champs sont bien sélectionnés au focus
+for entry in [itemIdEntry, nameEntry, priceEntry, qntEntry, categoryCombo]:
+    entry.bind("<FocusIn>", lambda event: event.widget.select())
 
 refreshTable()
 
