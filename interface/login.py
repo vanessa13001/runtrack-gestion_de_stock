@@ -12,7 +12,7 @@ def verify_login(user_id, password):
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Parfait1313",
+            password="",
             database="footlocker",
         )
         cursor = db.cursor()
@@ -37,8 +37,8 @@ def on_login():
         app.after_cancel(check_dpi_scaling_id)
         app.after_cancel(click_animation_id)
 
-        app.destroy()  # Fermer la fenêtre de connexion
-        # Utiliser le chemin absolu pour exécuter backend.py
+        app.destroy()
+        # Utiliser le chemin relatif pour exécuter backend.py
         backend_path = "interface\\backend.py"
 
         # Vérifier si le fichier existe avant d'essayer de l'exécuter
