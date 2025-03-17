@@ -12,7 +12,7 @@ def verify_login(user_id, password):
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="",
+            password="Parfait1313",
             database="footlocker",
         )
         cursor = db.cursor()

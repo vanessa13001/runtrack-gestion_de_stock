@@ -187,7 +187,7 @@ def start_stock_management():
 
         with open("products.csv", "w", newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(["Item Id", "Name", "Price", "Quantity", "Category", "Date"])
+            writer.writerow(["Item Id", "Name", "Description", "Category", "Price", "Date"])
             writer.writerows(products)
 
         messagebox.showinfo("Success", "Data exported to products.csv")
@@ -249,16 +249,18 @@ def start_stock_management():
     generateIdBtn.grid(row=0, column=3, padx=5, pady=5)
 
     style.configure(window)
-    my_tree['columns'] = ("Item Id", "Name", "Price", "Quantity", "Category", "Date")
+    my_tree['columns'] = ("Item Id", "Name", "Description", "Price", "Quantity", "Category", "Date")
     my_tree.column("#0", width=0, stretch=NO)
     my_tree.column("Item Id", anchor=W, width=70)
     my_tree.column("Name", anchor=W, width=125)
-    my_tree.column("Price", anchor=W, width=125)
-    my_tree.column("Quantity", anchor=W, width=100)
+    my_tree.column("Description", anchor=W, width=125)
+    my_tree.column("Price", anchor=W, width=100)
+    my_tree.column("Quantity", anchor=W, width=150)
     my_tree.column("Category", anchor=W, width=150)
     my_tree.column("Date", anchor=W, width=150)
     my_tree.heading("Item Id", text="Item Id", anchor=W)
     my_tree.heading("Name", text="Name", anchor=W)
+    my_tree.heading("Description", text="Description", anchor=W)
     my_tree.heading("Price", text="Price", anchor=W)
     my_tree.heading("Quantity", text="Quantity", anchor=W)
     my_tree.heading("Category", text="Category", anchor=W)
